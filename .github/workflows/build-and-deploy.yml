@@ -71,6 +71,7 @@ jobs:
             # Check if mysql container exists
             if [ -z "$(docker ps -a | grep "$(echo $MYSQL_CONTAINER_NAME)")" ]; 
             then docker run -d \
+            -p 3306:3306 \
             --restart always \
             --name $(echo $MYSQL_CONTAINER_NAME) \
             --network $(echo $NETWORK_NAME) \
