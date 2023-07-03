@@ -15,6 +15,12 @@ public class User extends Auditable {
 
     private String username;
 
+    private String phone;
+
+    private String email;
+
+    private String address;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private EUserRole role;
