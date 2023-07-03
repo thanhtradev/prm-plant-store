@@ -63,18 +63,18 @@ jobs:
             # Login to DigitalOcean Container Registry
             docker login -u $(echo ${{ secrets.GITLAB_PERSONAL_ACCESS_TOKEN }}) -p $(echo ${{ secrets.GITLAB_PERSONAL_ACCESS_TOKEN }}) registry.gitlab.com
 
-            # Check if network exists
-            if [ -z "$(docker network ls | grep "$(echo $NETWORK_NAME)")" ]; 
-            then docker network create $(echo $NETWORK_NAME); 
-            else echo "Network already exists"; 
-            fi
+            # # Check if network exists
+            # if [ -z "$(docker network ls | grep "$(echo $NETWORK_NAME)")" ]; 
+            # then docker network create $(echo $NETWORK_NAME); 
+            # else echo "Network already exists"; 
+            # fi
             # Check if mysql container exists
             if [ -z "$(docker ps -a | grep "$(echo $MYSQL_CONTAINER_NAME)")" ]; 
             then docker run -d \
             -p 3306:3306 \
             --restart always \
             --name $(echo $MYSQL_CONTAINER_NAME) \
-            --network $(echo $NETWORK_NAME) \
+            # --network $(echo $NETWORK_NAME) \
             -e MYSQL_ROOT_PASSWORD=test \
             mysql; 
             else echo "Container already exists"; fi
@@ -89,6 +89,6 @@ jobs:
             docker run -d \
             --restart always \
             --name $(echo $SPRINGBOOT_CONTAINER_NAME) \
-            --network $(echo $NETWORK_NAME) \
+            # --network $(echo $NETWORK_NAME) \
             -p 8080:8080 \
             $(echo $REGISTRY)/$(echo $IMAGE_NAME)
