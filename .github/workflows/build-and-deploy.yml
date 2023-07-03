@@ -44,7 +44,7 @@ jobs:
       - name: Login to Gitlab Container Registry
         run: docker login -u ${{ secrets.GITLAB_USERNAME }} -p ${{ secrets.GITLAB_PERSONAL_ACCESS_TOKEN }} $(echo $REGISTRY)
         
-      - name: Push image to DigitalOcean Container Registry
+      - name: Push image to Gitlab Container Registry
         run: docker push $(echo $REGISTRY)/$(echo $IMAGE_NAME)
 
   deploy:
@@ -71,6 +71,7 @@ jobs:
             # Check if mysql container exists
             if [ -z "$(docker ps -a | grep "$(echo $MYSQL_CONTAINER_NAME)")" ]; 
             then docker run -d \
+            -p 3306:3306 \
             --restart always \
             --name $(echo $MYSQL_CONTAINER_NAME) \
             --network $(echo $NETWORK_NAME) \
