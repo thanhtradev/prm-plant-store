@@ -1,4 +1,4 @@
-package com.prmplantstore.model.entity;
+package com.prmplantstore.entities;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

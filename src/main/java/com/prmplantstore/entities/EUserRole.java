@@ -1,4 +1,4 @@
-package com.prmplantstore.model.entity;
+package com.prmplantstore.entities;
 
 public enum EUserRole {
     USER,
