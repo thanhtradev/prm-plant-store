@@ -1,4 +1,4 @@
-package com.prmplantstore.model.entity;
+package com.prmplantstore.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,7 +13,20 @@ public class User extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name= "username", length = 255)
     private String username;
+
+    @Column(name = "password", length = 255)
+    private String password;
+
+    @Column(name = "phone", length = 15)
+    private String phone;
+
+    @Column(name = "email", length = 255)
+    private String email;
+
+    @Column(name = "address", length = 255)
+    private String address;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
