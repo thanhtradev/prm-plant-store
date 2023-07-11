@@ -23,6 +23,9 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
     public Iterable<User> findAll() {
         return userRepository.findAll();
     }
@@ -37,6 +40,16 @@ public class UserService {
 
     public Boolean existsById(Long id) {
         return userRepository.existsById(id);
+    }
+
+    public Boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+    public Boolean existsByPhone(String phone) {
+        return userRepository.existsByPhone(phone);
     }
 
     public void deleteAll() {
