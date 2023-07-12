@@ -90,5 +90,6 @@ jobs:
             --restart always \
             --name $(echo $SPRINGBOOT_CONTAINER_NAME) \
             --network $(echo $NETWORK_NAME) \
+            -e "SPRING_PROFILES_ACTIVE=docker"
             -p 8080:8080 \
             $(echo $REGISTRY)/$(echo $IMAGE_NAME)
