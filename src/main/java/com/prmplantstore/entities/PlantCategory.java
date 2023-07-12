@@ -18,10 +18,4 @@ public class PlantCategory {
 
     @Column(name = "description", length = 255)
     private String description;
-
-    @Column(name = "price", columnDefinition = "double default 0")
-    private Double price = 0.0;
-
-    @Column(name = "amount", columnDefinition = "int default 0")
-    private Integer amount = 0;
 }

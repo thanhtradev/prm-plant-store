@@ -6,16 +6,18 @@ import com.prmplantstore.common.BaseController;
 import com.prmplantstore.entities.PlantCategory;
 import com.prmplantstore.model.dto.ApiMessageDto;
 import com.prmplantstore.services.PlantCategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("app/plant-category")
+@Tag(name = "Plant Category", description = "The plant category API")
 public class PlantCategoryController extends BaseController {
     @Autowired
     private PlantCategoryService plantCategoryService;
@@ -32,5 +34,11 @@ public class PlantCategoryController extends BaseController {
         PlantCategory savedPlantCategory = plantCategoryService.save(plantCategory);
 
         return makeResponse(true, plantCategoryMapper.toDto(savedPlantCategory), "Plant category created successfully");
+    }
+
+//    @PostMapping("/initialize")
+    public ApiMessageDto<Object> initialize(){
+        plantCategoryService.initializePlantCategories();
+        return makeResponse(true, null, "Plant categories initialized successfully");
     }
 }
