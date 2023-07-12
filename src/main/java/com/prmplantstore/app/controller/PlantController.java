@@ -13,10 +13,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("app/plant")
@@ -44,5 +43,20 @@ public class PlantController extends BaseController {
         plant.setCategory(plantCategory);
         Plant savedPlant = plantService.save(plant);
         return makeResponse(true, plantMapper.toDto(savedPlant), "Plant created successfully");
+    }
+
+    @GetMapping("/{id}")
+    public ApiMessageDto<Object> getPlantById(@PathVariable Long id){
+        Plant plant = plantService.getById(id);
+        if(plant == null){
+            throw new BadRequestException("Plant not found");
+        }
+        return makeResponse(true, plantMapper.toDto(plant), "Plant retrieved successfully");
+    }
+
+    @GetMapping("/list")
+    public ApiMessageDto<Object> getAllPlants(){
+        List<Plant> plants = (List<Plant>) plantService.findAll();
+        return makeResponse(true, plantMapper.toDtoList(plants), "Plants retrieved successfully");
     }
 }

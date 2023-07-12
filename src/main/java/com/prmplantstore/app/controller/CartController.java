@@ -14,10 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -39,18 +36,28 @@ public class CartController extends BaseController {
     private CartMapper cartMapper;
 
     @PostMapping()
-    public ApiMessageDto<Object> create(@Valid @RequestBody CartCreatedDto cartCreatedDto){
+    public ApiMessageDto<Object> create(@Valid @RequestBody CartCreatedDto cartCreatedDto) {
         User user = userService.getById(cartCreatedDto.getUserId());
-        if(user == null){
+        if (user == null) {
             throw new BadRequestException("User not found");
         }
         Cart cart = modelMapper.map(cartCreatedDto, Cart.class);
         cart.setUser(user);
         Cart savedCart = cartService.save(cart);
-        if(savedCart == null){
+        if (savedCart == null) {
             throw new BadRequestException("Cart not created");
         }
         return makeResponse(true, cartMapper.toDto(savedCart), "Cart created");
     }
 
+    // Delete cart by user id
+    @DeleteMapping("/{userId}")
+    public ApiMessageDto<Object> deleteCartByUserId(@PathVariable Long userId) {
+        Cart cart = cartService.getByUserId(userId);
+        if (cart == null) {
+            throw new BadRequestException("Cart not found");
+        }
+        cartService.delete(cart);
+        return makeResponse(true, null, "Cart deleted");
+    }
 }

@@ -24,6 +24,10 @@ public class CartItemService {
         return cartItemRepository.findById(id).orElse(null);
     }
 
+    public CartItem getByCartIdAndPlantId(Long cartId, Long plantId) {
+        return cartItemRepository.getByCartIdAndPlantId(cartId, plantId);
+    }
+
     public Iterable<CartItem> findAll() {
         return cartItemRepository.findAll();
     }
@@ -40,6 +44,9 @@ public class CartItemService {
         return cartItemRepository.existsById(id);
     }
 
+    public Boolean existsByCartIdAndPlantId(Long cartId, Long plantId) {
+        return cartItemRepository.existsByCartIdAndPlantId(cartId, plantId);
+    }
     public void deleteAll() {
         cartItemRepository.deleteAll();
     }
