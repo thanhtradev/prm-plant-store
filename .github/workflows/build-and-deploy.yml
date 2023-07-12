@@ -93,3 +93,7 @@ jobs:
             -e "SPRING_PROFILES_ACTIVE=docker" \
             -p 8080:8080 \
             $(echo $REGISTRY)/$(echo $IMAGE_NAME)
+    # Test the deployment
+      - name: Test deployment
+        run: |
+          curl -sSf http://localhost:8080/actuator/health | grep -q '{"status":"UP"}'
