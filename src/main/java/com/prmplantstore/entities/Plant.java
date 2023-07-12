@@ -29,4 +29,7 @@ public class Plant {
 
     @Column(name = "amount", columnDefinition = "int default 0")
     private Integer amount = 0;
+
+    @Column(name = "image", length = 255)
+    private String image;
 }
