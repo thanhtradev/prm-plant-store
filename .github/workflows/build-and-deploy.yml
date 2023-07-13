@@ -99,7 +99,7 @@ jobs:
       - name: Test deployment
         run: |
           HEALTH_CHECK_URL="https://api.prm.nolamedia.tech/actuator/health"
-          RESPONSE=$(curl -sSf -w "%{http_code}" $HEALTH_CHECK_URL)
+          RESPONSE=$(curl -sSf -o /dev/null -w "%{http_code}" $HEALTH_CHECK_URL)
           
           if [ "$RESPONSE" = "200" ]; then
             echo "Deployment is successful. The application is healthy."
