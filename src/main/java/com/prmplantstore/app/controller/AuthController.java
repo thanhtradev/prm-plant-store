@@ -4,10 +4,12 @@ import com.prmplantstore.app.mapper.UserMapper;
 import com.prmplantstore.app.resDto.UserLoginDto;
 import com.prmplantstore.app.resDto.UserRegisterDto;
 import com.prmplantstore.common.BaseController;
+import com.prmplantstore.entities.Cart;
 import com.prmplantstore.entities.EUserRole;
 import com.prmplantstore.entities.User;
 import com.prmplantstore.exception.BadRequestException;
 import com.prmplantstore.model.dto.ApiMessageDto;
+import com.prmplantstore.services.CartService;
 import com.prmplantstore.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,6 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController extends BaseController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CartService cartService;
+
 
     @Autowired
     private UserMapper userMapper;
@@ -51,6 +57,10 @@ public class AuthController extends BaseController {
         User user = modelMapper.map(userRegisterDto, User.class);
         user.setRole(EUserRole.USER);
         User savedUser = userService.save(user);
+        // Create new cart for the user
+         Cart cart = new Cart();
+         cart.setUser(savedUser);
+         cartService.save(cart);
 
         return makeResponse(true, userMapper.toDto(savedUser), "User created successfully");
     }
