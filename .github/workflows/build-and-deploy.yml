@@ -95,7 +95,15 @@ jobs:
             $(echo $REGISTRY)/$(echo $IMAGE_NAME)
       - name: Wait for deployment to finish
         run: sleep 45s
-    # Test the deployment
+
       - name: Test deployment
         run: |
-          curl -sSf http://localhost:8080/actuator/health | grep -q '{"status":"UP"}'
+          HEALTH_CHECK_URL="https://api.prm.nolamedia.tech/actuator/health"
+          RESPONSE=$(curl -sSf -w "%{http_code}" $HEALTH_CHECK_URL)
+          
+          if [ "$RESPONSE" = "200" ]; then
+            echo "Deployment is successful. The application is healthy."
+          else
+            echo "Deployment failed. The application is not running properly. Response code: $RESPONSE"
+            exit 1
+          fi
