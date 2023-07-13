@@ -94,7 +94,7 @@ jobs:
             -p 8080:8080 \
             $(echo $REGISTRY)/$(echo $IMAGE_NAME)
       - name: Wait for deployment to finish
-        run: sleep 30s
+        run: sleep 45s
     # Test the deployment
       - name: Test deployment
         run: |
