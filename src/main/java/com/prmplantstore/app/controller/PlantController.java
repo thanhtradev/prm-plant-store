@@ -59,4 +59,11 @@ public class PlantController extends BaseController {
         List<Plant> plants = (List<Plant>) plantService.findAll();
         return makeResponse(true, plantMapper.toDtoList(plants), "Plants retrieved successfully");
     }
+
+    // Get plants by category id
+    @GetMapping("/category/{id}")
+    public ApiMessageDto<Object> getPlantsByCategoryId(@PathVariable Long id){
+        List<Plant> plants = (List<Plant>) plantService.findAllByCategoryId(id);
+        return makeResponse(true, plantMapper.toDtoList(plants), "Plants retrieved successfully");
+    }
 }

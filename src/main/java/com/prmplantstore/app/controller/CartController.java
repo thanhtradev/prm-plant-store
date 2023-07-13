@@ -57,7 +57,19 @@ public class CartController extends BaseController {
         if (cart == null) {
             throw new BadRequestException("Cart not found");
         }
-        cartService.delete(cart);
+        // Remove all cart items
+        cartItemService.deleteAllByCartId(cart.getId());
+        cart.setCartItems(null);
         return makeResponse(true, null, "Cart deleted");
+    }
+
+    // Get card details by user id
+    @GetMapping("/{userId}")
+    public ApiMessageDto<Object> getCartByUserId(@PathVariable Long userId) {
+        Cart cart = cartService.getByUserId(userId);
+        if (cart == null) {
+            throw new BadRequestException("Cart not found");
+        }
+        return makeResponse(true, cartMapper.toDto(cart), "Cart retrieved");
     }
 }

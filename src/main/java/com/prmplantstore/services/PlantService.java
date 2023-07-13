@@ -47,4 +47,8 @@ public class PlantService {
         plantRepository.delete(plant);
     }
 
+    public Iterable<Plant> findAllByCategoryId(Long categoryId) {
+        return plantRepository.findAllByCategoryId(categoryId);
+    }
+
 }
