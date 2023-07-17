@@ -68,7 +68,7 @@ public class PlantController extends BaseController {
     }
 
     // Initialize plants
-    @PostMapping("/initialize")
+//    @PostMapping("/initialize")
     public ApiMessageDto<Object> initialize() {
         // Get list of plant categories
         List<PlantCategory> plantCategories = (List<PlantCategory>) plantCategoryService.findAll();
