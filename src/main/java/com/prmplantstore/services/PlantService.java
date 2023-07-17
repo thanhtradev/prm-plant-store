@@ -1,6 +1,7 @@
 package com.prmplantstore.services;
 
 import com.prmplantstore.entities.Plant;
+import com.prmplantstore.entities.PlantCategory;
 import com.prmplantstore.repositories.PlantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

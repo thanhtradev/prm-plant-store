@@ -2,6 +2,7 @@ package com.prmplantstore.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,4 +33,16 @@ public class Plant {
 
     @Column(name = "image", length = 255)
     private String image;
+
+    public Plant() {
+
+    }
+    public Plant(PlantCategory category, @NotNull String name, String description, Double price, Integer amount, String image) {
+        this.category = category;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.amount = amount;
+        this.image = image;
+    }
 }
