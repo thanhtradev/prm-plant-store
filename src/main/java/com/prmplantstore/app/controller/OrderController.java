@@ -12,6 +12,7 @@ import com.prmplantstore.model.dto.ApiMessageDto;
 import com.prmplantstore.services.OrderService;
 import com.prmplantstore.services.PlantService;
 import com.prmplantstore.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order")
+@Tag(name = "Order", description = "Order API")
 public class OrderController extends BaseController {
     @Autowired
     private OrderService orderService;
@@ -63,6 +65,8 @@ public class OrderController extends BaseController {
             orderItem.setQuantity(orderItemDto.getQuantity());
             orderItem.setOrder(order);
             order.getOrderItems().add(orderItem);
+            plant.setAmount(plant.getAmount() - orderItemDto.getQuantity());
+            plantService.save(plant);
         }
         // Sum total price
         double totalPrice = 0.0;
@@ -87,5 +91,34 @@ public class OrderController extends BaseController {
         }
         detailOrderDto.setOrderItems(detailOrderItemDtos);
         return makeResponse(true, detailOrderDto, "Order retrieved successfully");
+    }
+    @GetMapping("/get-by-user/{id}")
+    public ApiMessageDto<Object> getOrderByUser(@PathVariable("id") Long id) {
+        if (!userService.existsById(id)) {
+            throw new BadRequestException("User is not existed");
+        }
+        List<Order> orders = orderService.getByUserId(id);
+        List<DetailOrderDto> detailOrderDtos = new ArrayList<>();
+        for (Order order : orders) {
+            DetailOrderDto detailOrderDto =  modelMapper.map(order, DetailOrderDto.class);
+            List<DetailOrderItemDto> detailOrderItemDtos = new ArrayList<>();
+            for (OrderItem orderItem : order.getOrderItems()) {
+                DetailOrderItemDto detailOrderItemDto = modelMapper.map(orderItem, DetailOrderItemDto.class);
+                detailOrderItemDtos.add(detailOrderItemDto);
+            }
+            detailOrderDto.setOrderItems(detailOrderItemDtos);
+            detailOrderDtos.add(detailOrderDto);
+        }
+        return makeResponse(true, detailOrderDtos, "Orders retrieved successfully");
+    }
+    @PutMapping("/update-status/{id}")
+    public ApiMessageDto<Object> updateOrderStatus(@PathVariable("id") Long id, @RequestParam("status") EOrderStatus status) {
+        if (!orderService.existsById(id)) {
+            throw new BadRequestException("Order is not existed");
+        }
+        Order order = orderService.getById(id);
+        order.setStatus(status);
+        Order savedOrder = orderService.save(order);
+        return makeResponse(true, orderMapper.toDto(savedOrder), "Order updated successfully");
     }
 }

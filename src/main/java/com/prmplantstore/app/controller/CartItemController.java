@@ -11,6 +11,7 @@ import com.prmplantstore.model.dto.ApiMessageDto;
 import com.prmplantstore.services.CartItemService;
 import com.prmplantstore.services.CartService;
 import com.prmplantstore.services.PlantService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cart-item")
+@Tag(name = "Cart Item", description = "The cart item API")
 public class CartItemController extends BaseController {
     @Autowired
     private CartItemService cartItemService;

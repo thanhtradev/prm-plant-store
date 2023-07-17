@@ -11,12 +11,9 @@ import java.util.List;
 @Data
 public class OrderDto {
     private Long id;
-
     private Date date;
-
     private Double total;
-
     private Long userId;
-
+    private String status;
     private List<Long> orderItemIds;
 }

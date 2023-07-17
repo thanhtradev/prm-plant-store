@@ -11,5 +11,6 @@ public class DetailOrderDto {
     private Long id;
     private Date date;
     private Double total;
+    private String status;
     private List<DetailOrderItemDto> orderItems;
 }
