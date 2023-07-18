@@ -9,5 +9,4 @@ public class CartItemDto {
     // One cart item belongs to one plant
     private Long plantId;
     private Integer amount;
-    private Double totalPrice;
 }
