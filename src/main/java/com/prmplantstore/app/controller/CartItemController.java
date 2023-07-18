@@ -17,6 +17,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/cart-item")
 @Tag(name = "Cart Item", description = "The cart item API")
@@ -80,5 +82,21 @@ public class CartItemController extends BaseController {
             throw new BadRequestException("Cart item not found");
         }
         return makeResponse(true, cartItemMapper.toDto(cartItem), "Cart item found");
+    }
+    // Get list cart item by list of id
+    @GetMapping("/list/{ids}")
+    public ApiMessageDto<Object> getListCartItemByIds(@PathVariable String ids) {
+        // Split string and parse long to list
+        List<Long> idList = parseStringToListLong(ids);
+        List<CartItem> cartItems =(List<CartItem>) cartItemService.findAllById(idList);
+        return makeResponse(true, cartItemMapper.toDtoList(cartItems), "Cart item found");
+    }
+    private List<Long> parseStringToListLong(String ids) {
+        String[] idArray = ids.split(",");
+        List<Long> idList = new java.util.ArrayList<>();
+        for (String id : idArray) {
+            idList.add(Long.parseLong(id));
+        }
+        return idList;
     }
 }

@@ -5,6 +5,8 @@ import com.prmplantstore.repositories.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartItemService {
     @Autowired
@@ -32,7 +34,7 @@ public class CartItemService {
         return cartItemRepository.findAll();
     }
 
-    public Iterable<CartItem> findAllById(Iterable<Long> ids) {
+    public Iterable<CartItem> findAllById(List<Long> ids) {
         return cartItemRepository.findAllById(ids);
     }
 
