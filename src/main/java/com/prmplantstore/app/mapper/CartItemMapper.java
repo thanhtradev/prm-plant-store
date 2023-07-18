@@ -7,7 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface CartItemMapper extends  EntityDtoMapper<CartItemDto, CartItem> {
-    @Mapping(target = "plantId", source = "plant.id")
     @Mapping(target = "cartId", source = "cart.id")
     CartItemDto toDto(CartItem cartItem);
 }

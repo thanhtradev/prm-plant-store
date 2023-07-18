@@ -1,6 +1,8 @@
 package com.prmplantstore.app.controller;
 
+import com.prmplantstore.app.dto.CartItemDto;
 import com.prmplantstore.app.mapper.CartItemMapper;
+import com.prmplantstore.app.mapper.PlantMapper;
 import com.prmplantstore.app.resDto.CartItemCreatedDto;
 import com.prmplantstore.common.BaseController;
 import com.prmplantstore.entities.Cart;
@@ -17,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,6 +40,9 @@ public class CartItemController extends BaseController {
 
     @Autowired
     private CartItemMapper cartItemMapper;
+
+    @Autowired
+    private PlantMapper plantMapper;
 
     // Add cart item to cart
     @PostMapping()
@@ -89,7 +95,13 @@ public class CartItemController extends BaseController {
         // Split string and parse long to list
         List<Long> idList = parseStringToListLong(ids);
         List<CartItem> cartItems =(List<CartItem>) cartItemService.findAllById(idList);
-        return makeResponse(true, cartItemMapper.toDtoList(cartItems), "Cart item found");
+        List<CartItemDto> cartItemDtos = new ArrayList<>();
+        for(CartItem cartItem : cartItems) {
+            CartItemDto cartItemDto = cartItemMapper.toDto(cartItem);
+            cartItemDto.setPlant(plantMapper.toDto(cartItem.getPlant()));
+            cartItemDtos.add(cartItemDto);
+        }
+        return makeResponse(true, cartItemDtos, "Cart item found");
     }
     private List<Long> parseStringToListLong(String ids) {
         String[] idArray = ids.split(",");
