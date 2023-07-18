@@ -10,10 +10,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("app/plant-category")
@@ -34,6 +33,12 @@ public class PlantCategoryController extends BaseController {
         PlantCategory savedPlantCategory = plantCategoryService.save(plantCategory);
 
         return makeResponse(true, plantCategoryMapper.toDto(savedPlantCategory), "Plant category created successfully");
+    }
+
+    @GetMapping("/list")
+    public ApiMessageDto<Object> list(){
+        List<PlantCategory> plantCategories = (List<PlantCategory>) plantCategoryService.findAll();
+        return makeResponse(true, plantCategoryMapper.toDtoList(plantCategories), "Plant categories retrieved successfully");
     }
 
 //    @PostMapping("/initialize")
