@@ -103,6 +103,16 @@ public class CartItemController extends BaseController {
         }
         return makeResponse(true, cartItemDtos, "Cart item found");
     }
+    // Delete by id
+    @DeleteMapping("/{id}")
+    public ApiMessageDto<Object> deleteCartItemById(@PathVariable Long id) {
+        CartItem cartItem = cartItemService.getById(id);
+        if (cartItem == null) {
+            throw new BadRequestException("Cart item not found");
+        }
+        cartItemService.delete(cartItem);
+        return makeResponse(true, null, "Cart item deleted");
+    }
     private List<Long> parseStringToListLong(String ids) {
         String[] idArray = ids.split(",");
         List<Long> idList = new java.util.ArrayList<>();
