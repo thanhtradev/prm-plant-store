@@ -25,7 +25,4 @@ public class CartItem {
 
     @Column(name = "amount", columnDefinition = "int default 0")
     private Integer amount = 0;
-
-    @Column(name = "total_price", columnDefinition = "double default 0")
-    private Double totalPrice = 0.0;
 }

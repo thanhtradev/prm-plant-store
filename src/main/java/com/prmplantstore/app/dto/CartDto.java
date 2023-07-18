@@ -15,5 +15,4 @@ public class CartDto {
     // One cart has many cart items
     private List<Long> cartItemIds;
     private Double totalPrice;
-    private Integer totalAmount;
 }

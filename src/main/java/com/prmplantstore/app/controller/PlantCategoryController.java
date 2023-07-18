@@ -41,7 +41,7 @@ public class PlantCategoryController extends BaseController {
         return makeResponse(true, plantCategoryMapper.toDtoList(plantCategories), "Plant categories retrieved successfully");
     }
 
-//    @PostMapping("/initialize")
+    @PostMapping("/initialize")
     public ApiMessageDto<Object> initialize(){
         plantCategoryService.initializePlantCategories();
         return makeResponse(true, null, "Plant categories initialized successfully");

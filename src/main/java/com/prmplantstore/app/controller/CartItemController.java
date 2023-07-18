@@ -53,7 +53,7 @@ public class CartItemController extends BaseController {
             cartItem = cartItemService.getByCartIdAndPlantId(cart.getId(), plant.getId());
             cartItem.setAmount(cartItem.getAmount() + 1);
         } else {
-            cartItem = modelMapper.map(cartItemCreatedDto, CartItem.class);
+            cartItem = new CartItem();
             cartItem.setCart(cart);
             cartItem.setPlant(plant);
             cartItem.setAmount(cartItemCreatedDto.getAmount());
