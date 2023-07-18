@@ -72,4 +72,13 @@ public class CartItemController extends BaseController {
         cartItemService.delete(cartItem);
         return makeResponse(true, null, "Cart item deleted");
     }
+
+    @GetMapping("/{id}")
+    public ApiMessageDto<Object> getCartItemById(@PathVariable Long id) {
+        CartItem cartItem = cartItemService.getById(id);
+        if (cartItem == null) {
+            throw new BadRequestException("Cart item not found");
+        }
+        return makeResponse(true, cartItemMapper.toDto(cartItem), "Cart item found");
+    }
 }
