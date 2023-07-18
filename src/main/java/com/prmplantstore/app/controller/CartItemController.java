@@ -39,7 +39,7 @@ public class CartItemController extends BaseController {
     // Add cart item to cart
     @PostMapping()
     public ApiMessageDto<Object> addCartItemToCart(@Valid @RequestBody CartItemCreatedDto cartItemCreatedDto) {
-        Cart cart = cartService.getById(cartItemCreatedDto.getCartId());
+        Cart cart = cartService.getByUserId(cartItemCreatedDto.getUserId());
         if (cart == null) {
             throw new BadRequestException("Cart not found");
         }
