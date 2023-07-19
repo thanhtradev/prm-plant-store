@@ -11,6 +11,7 @@ import com.prmplantstore.services.CartItemService;
 import com.prmplantstore.services.CartService;
 import com.prmplantstore.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class CartController extends BaseController {
         return makeResponse(true, cartMapper.toDto(savedCart), "Cart created");
     }
 
+    @Transactional
     // Delete cart by user id
     @DeleteMapping("/{userId}")
     public ApiMessageDto<Object> deleteCartByUserId(@PathVariable Long userId) {
@@ -60,6 +62,7 @@ public class CartController extends BaseController {
         // Remove all cart items
         cartItemService.deleteAllByCartId(cart.getId());
         cart.setCartItems(null);
+        cartService.save(cart);
         return makeResponse(true, null, "Cart deleted");
     }
 
